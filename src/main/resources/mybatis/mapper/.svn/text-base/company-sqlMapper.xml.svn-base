@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.dao.CompanyDao">
+	<!-- 查询二审审核公司信息 -->
+	<select id="checkComList" resultType="com.zc.dto.Company">
+		select com.* ,cor.corname
+		from
+			company com ,corporation cor
+		where com.comcorid=cor.corid and com.checksecondmsg = 2
+	</select>
+	<!-- 查询一审审核公司信息 -->
+	<select id="checkComListFirst" resultType="com.zc.dto.Company">
+		select com.* ,cor.corname
+		from
+			company com ,corporation cor
+		where com.comcorid=cor.corid and com.checksecondmsg = 1 and com.comstatus='审核中'
+	</select>
+	<!-- 更新二审审核公司信息 -->
+	<update id="updateComList" parameterType="com.zc.dto.Company">
+		update company
+		set
+			checksecondid=#{checksecondid},
+			checkseconddate=sysdate(),
+			checksecondmsg=#{checksecondmsg},
+			comstatus=#{comstatus,jdbcType=VARCHAR}
+		where comid=#{comid}
+	</update>
+	<!-- 更新一审审核公司信息 -->
+	<update id="updateComListFirst" parameterType="com.zc.dto.Company">
+		update company
+		set
+			checkfirstid=#{checkfirstid},
+			checkfirstdate=sysdate(),
+			checkfirstmsg=#{checkfirstmsg},
+			comstatus=#{comstatus,jdbcType=VARCHAR}
+		where comid=#{comid}
+	</update>
+	<!-- 通过ID查询公司信息 -->
+	<select id="queryComById" parameterType="java.lang.Integer" resultType="com.zc.dto.Company">
+		select com.* ,cor.corname
+		from
+			company com ,corporation cor
+		where com.comcorid=cor.corid and com.comid=#{comid}
+	</select>
+	<!-- 查询已审核公司信息 -->
+	<select id="queryComListFirst" resultType="com.zc.dto.Company" parameterType="com.zc.dto.Company">
+		select com.* ,cor.corname
+		from
+			company com ,corporation cor
+		where com.comcorid=cor.corid and com.comstatus='已审核'
+		<if test="comname!=null and comname!=''">
+			and comname=#{comname}
+		</if>
+		<if test="comtype!=null and comtype!=''">
+			and comtype=#{comtype}
+		</if>
+		<if test="comwork!=null and comwork!=''">
+			and comwork=#{comwork}
+		</if>
+	</select>
+	<!-- 查询已审核公司信息 -->
+	<select id="queryComList" resultType="com.zc.dto.Company" parameterType="com.zc.dto.Company">
+		select com.* ,cor.corname
+		from
+			company com ,corporation cor
+		where com.comcorid=cor.corid and com.comstatus='审核中'
+		<if test="comname!=null and comname!=''">
+			and comname=#{comname}
+		</if>
+		<if test="comtype!=null and comtype!=''">
+			and comtype=#{comtype}
+		</if>
+		<if test="comwork!=null and comwork!=''">
+			and comwork=#{comwork}
+		</if>
+	</select>
+</mapper>

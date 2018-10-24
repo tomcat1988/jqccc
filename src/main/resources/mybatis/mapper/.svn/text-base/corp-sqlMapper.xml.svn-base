@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.dao.CheckCorporationDao">
+	<!-- 二级审核人员查询所有法人信息 -->
+	<select id="queryCorpListSecond" resultType="com.zc.dto.Corporation">
+		select
+			co.corid,
+			co.corname,
+			co.coridcard,
+			co.cortel,
+			co.cormail,
+			co.coraddress
+		from
+			corporation co
+		where
+			co.checksecondmsg = 2
+	</select>
+	<!-- 通过id查询单个法人的详细信息以便二审人员审核 -->
+	<select id="queryCorpOneSecond" parameterType="java.lang.Integer"
+		resultType="com.zc.dto.Corporation">
+		select
+			*
+		from
+			corporation co
+		where
+			co.corid = #{corid}
+	</select>
+	<!-- 添加二审人员审核信息 -->
+	<update id="checkSecond" parameterType="com.zc.dto.Corporation">
+		update corporation
+		set
+			checksecondid=#{checksecondid},
+			checkseconddate=sysdate(),
+			checksecondmsg=#{checksecondmsg},
+			corstatus=#{corstatus,jdbcType=VARCHAR}
+		where
+			corid = #{corid}
+	</update>
+	<!-- 一级审核人员查询所有法人信息 -->
+	<select id="queryCorpListFirst" resultType="com.zc.dto.Corporation">
+		select
+			co.corid,
+			co.corname,
+			co.coridcard,
+			co.cortel,
+			co.cormail,
+			co.coraddress,
+			co.checksecondid,
+			em.empname "checksecondname",
+			co.checkseconddate,
+			co.checksecondmsg
+		from
+			corporation co,emp em
+		where
+			co.checksecondid = em.empid
+		and
+			co.checksecondmsg = 1
+		and 
+			co.corstatus = '审核中'
+	</select>
+	<!-- 通过id查询单个法人的详细信息以便一审人员审核 -->
+	<select id="queryCorpOneFirst" parameterType="java.lang.Integer"
+		resultType="com.zc.dto.Corporation">
+		select
+			co.corid,
+			co.corname,
+			co.coridcard,
+			co.cortel,
+			co.cormail,
+			co.coraddress,
+			co.checksecondid,
+			em.empname "checksecondname",
+			co.checkseconddate,
+			co.checksecondmsg,
+			co.corstatus
+		from
+			corporation co,emp em
+		where
+			co.checksecondid = em.empid
+		and
+			co.corid = #{corid}
+	</select>
+	<!-- 添加一审人员审核信息 -->
+	<update id="checkFirst" parameterType="com.zc.dto.Corporation">
+		update corporation
+		set
+			checkfirstid=#{checkfirstid},
+			checkfirstdate=sysdate(),
+			checkfirstmsg=#{checkfirstmsg},
+			corstatus=#{corstatus}
+		where
+			corid = #{corid}
+	</update>
+	<!-- 将查询出来的法人身份证信息添加到数据库中 -->
+	<insert id="insertCheckIdCardCorp" parameterType="com.zc.dto.Checkinfo">
+		insert into checkinfo (corid,checkidcard)
+		values(#{corid},#{checkidcard})
+	</insert>
+	<!-- 将查询出来的用户身份证信息添加到数据库中 -->
+	<insert id="insertCheckIdCardUser" parameterType="com.zc.dto.Checkinfo">
+		insert into checkinfo (userid,checkidcard)
+		values(#{userid},#{checkidcard})
+	</insert>
+	<!-- 通过法人id查询该法人是否检查过身份证信息 -->
+	<select id="queryCheckinfoByCorid" parameterType="java.lang.Integer" resultType="com.zc.dto.Checkinfo">
+		select * from checkinfo where corid = #{corid}
+	</select>
+</mapper>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.frd.mapper.cargoorder">
+    <!--查询-->
+	<select id="selectOne" resultType="com.frd.model.cargoorder">
+		select * from cargo_order where rowid=#{rowid}
+	</select>
+    <select id="selectList" parameterType="com.frd.model.cargoorder"  resultType="com.frd.model.cargoorder">
+		select * from cargo_order where
+        orderno=#{orderno} and
+        origin=#{origin} and
+        destination=#{destination} and
+        customer=#{customer} and
+        tel=#{tel} and
+        startdt=#{startdt} and
+        enddt=#{enddt} and
+        gw=#{gw} and
+        cbm=#{cbm} and
+        cargotype=#{cargotype} and
+        remark=#{remark} and
+        creator=#{creator} and
+        createdt=#{createdt} and
+        modifyby=#{modifyby} and
+        modifydt=#{modifydt}
+	</select>
+     <!--新增-->
+	<insert id="add" parameterType="com.frd.model.cargoorder" >
+		insert cargo_order （
+        orderno,
+        origin,
+        destination,
+        customer,
+        tel,
+        startdt,
+        enddt,
+        gw,
+        cbm,
+        cargotype,
+        remark,
+        creator,
+        createdt,
+        modifyby,
+        modifydt)
+        values(
+        #{orderno},
+        #{origin},
+        #{destination},
+        #{customer},
+        #{tel},
+        #{startdt},
+        #{enddt},
+        #{gw},
+        #{cbm},
+        #{cargotype},
+        #{remark},
+        #{creator},
+        #{createdt},
+        #{modifyby},
+        #{modifydt})
+	</insert>
+	 <!--修改-->
+	<update id="update">
+		update cargo_order 
+        set 
+        orderno=#{orderno},
+        origin=#{origin},
+        destination=#{destination},
+        customer=#{customer},
+        tel=#{tel},
+        startdt=#{startdt},
+        enddt=#{enddt},
+        gw=#{gw},
+        cbm=#{cbm},
+        cargotype=#{cargotype},
+        remark=#{remark},
+        creator=#{creator},
+        createdt=#{createdt},
+        modifyby=#{modifyby},
+        modifydt=#{modifydt}
+        where rowid=#{rowid}
+	</update>
+    <delete id="delete">
+		delete cargo_order 
+        where rowid=#{rowid}
+	</delete>
+</mapper>

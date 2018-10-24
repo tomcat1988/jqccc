@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.frd.mapper.boxcost">
+    <!--查询-->
+	<select id="selectOne" resultType="com.frd.model.boxcost">
+		select * from box_cost where rowid=#{rowid}
+	</select>
+    <select id="selectList" parameterType="com.frd.model.boxcost"  resultType="com.frd.model.boxcost">
+		select * from box_cost where
+        boxcode=#{boxcode} and
+        boxname=#{boxname} and
+        costtime=#{costtime} and
+        cost=#{cost} and
+        truckno=#{truckno} and
+        remark=#{remark} and
+        creator=#{creator} and
+        createdt=#{createdt} and
+        modifyby=#{modifyby} and
+        modifydt=#{modifydt}
+	</select>
+     <!--新增-->
+	<insert id="add" parameterType="com.frd.model.boxcost" >
+		insert box_cost （
+        boxcode,
+        boxname,
+        costtime,
+        cost,
+        truckno,
+        remark,
+        creator,
+        createdt,
+        modifyby,
+        modifydt)
+        values(
+        #{boxcode},
+        #{boxname},
+        #{costtime},
+        #{cost},
+        #{truckno},
+        #{remark},
+        #{creator},
+        #{createdt},
+        #{modifyby},
+        #{modifydt})
+	</insert>
+	 <!--修改-->
+	<update id="update">
+		update box_cost 
+        set 
+        boxcode=#{boxcode},
+        boxname=#{boxname},
+        costtime=#{costtime},
+        cost=#{cost},
+        truckno=#{truckno},
+        remark=#{remark},
+        creator=#{creator},
+        createdt=#{createdt},
+        modifyby=#{modifyby},
+        modifydt=#{modifydt}
+        where rowid=#{rowid}
+	</update>
+    <delete id="delete">
+		delete box_cost 
+        where rowid=#{rowid}
+	</delete>
+</mapper>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.dao.ProductinfoDao">
+
+	<!-- 所有的理财产品列表都是按照发布日期从近往远排 -->
+	<!-- 首页显示的理财产品信息最新发布 3条，查询理财id，名称，投标期限，最低投标金额，产品收益率，prostatus=1 表示审核已通过-->
+		<!-- 理财产品类型1 -->
+	<select id="protype_one"   resultType="com.zc.dto.Productinfo">
+		select proid, 
+			proname, 
+			proday, 
+			proprice, 
+			proprofit from productinfo where prostatus="已审核" and protype=1 order by prodate desc limit 3
+	</select>
+	
+	<!-- 理财产品类型2 -->
+	<select id="protype_two" resultType="com.zc.dto.Productinfo">
+		select proid, 
+			   proname, 
+			   proday, 
+			   proprice, 
+			   proprofit from productinfo where prostatus="已审核" and protype=2 order by prodate desc limit 3
+	</select>
+	
+	<!-- 理财产品类型3 -->
+	<select id="protype_three" resultType="com.zc.dto.Productinfo">
+		select proid, 
+			   proname, 
+			   proday, 
+			   proprice, 
+			   proprofit from productinfo where prostatus="已审核" and protype=3 order by prodate desc limit 3
+	</select>
+	
+	<!-- 我的理财页面显示理财信息 -->
+	<select id="prolist" resultType="com.zc.dto.Productinfo">
+		 select * from productinfo order by prodate desc
+	</select>
+	
+	<!-- 理财产品详情 -->
+	<select id="infor" parameterType="com.zc.dto.Productinfo" resultType="com.zc.dto.Productinfo">
+		select * from productinfo where proid=#{proid} 
+	</select>
+	
+	
+	<!-- 点击更多， 首页对应类型的理财产品显示 -->
+	<select id="protypex" parameterType="com.zc.dto.Productinfo" resultType="com.zc.dto.Productinfo">
+		select * from productinfo where protype=#{protype} order by prodate desc
+	</select>
+	
+	<!-- 理财列表页面选择条件显示内容，模糊查询 -->
+	<select id="prosltlist" parameterType="com.zc.dto.Productinfo" resultType="com.zc.dto.Productinfo">
+		select * from productinfo
+		<where>
+			<if test="resMapObj.protype !=null">
+				and protype =#{resMapObj.protype}
+			</if>
+			<if test="resMapObj.fiit !=null">
+				<if test="resMapObj.fiit == 5.00">
+					and proprofit &lt; #{resmapfit.five}
+				</if>
+				<if test="resMapObj.fiit == 10.00">
+					and proprofit &gt;= #{resmapfit.five} 
+					and proprofit &lt; #{resmapfit.ten}
+				</if>
+				<if test="resMapObj.fiit == 15.00">
+					and proprofit &gt;= #{resmapfit.ten} 
+					and proprofit &lt; #{resmapfit.twenty} 
+				</if>
+				<if test="resMapObj.fiit == 20.00">
+					and proprofit &gt;= #{resmapfit.twentyy}
+				</if>
+			</if>
+			<if test="resMapObj.proday != null">
+				and proday = #{resMapObj.proday}
+			</if>
+			<if test="resMapObj.proprice != null">
+				and proprice = #{resMapObj.proprice}
+			</if>
+		</where>
+			order by prodate desc
+	</select> 
+	
+	
+	
+</mapper>

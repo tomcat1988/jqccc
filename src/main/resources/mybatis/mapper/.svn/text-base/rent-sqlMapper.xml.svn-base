@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.dao.RentDao">
+	<!--第一次贷款完善用户表信息  -->
+	<update id="addUser" parameterType="com.zc.dto.Rentinfo">
+		update userinfo ui set usernickname=#{usernickname},usersex=#{usersex},userdate=#{userdate},usercard=#{usercard},usermarry=#{usermarry},usertel=#{usertel},usermail=#{usermail},useraddress_now=#{useraddress_now}
+		,useraddress=#{useraddress},usercomname=#{usercomname},usercomaddress=#{usercomaddress},usercomjob=#{usercomjob},usermoney=#{usermoney},useridcardpath=#{useridcardpath},usermoneypath=#{usermoneypath},useridcard=#{useridcard}
+		where ui.userid=#{userid}
+	</update>
+	<!--提交借贷申请时向借贷表修改一条数据  -->
+	<insert id="rent" parameterType="com.zc.dto.Rentinfo">
+		insert into rentinfo (userid,userrent,userrentfor,userpay,userpaydate,userappdate,monthpay) 
+		values (#{userid},#{userrent},#{userrentfor},#{userpay},#{userpaydate},#{userappdate},#{monthpay})
+	</insert>
+	<!--根据用户id查询该用户过往贷款记录  -->
+	<select id="allRent" parameterType="java.lang.Integer" resultType="com.zc.dto.Rentinfo">
+		select * from rentinfo where userid=#{id}  order by userappdate desc
+	</select>
+	<!--判断该用户以前是否存在贷款  -->
+	<select id="selectById" parameterType="java.lang.Integer" resultType="com.zc.dto.UserInfo">
+		select * from userinfo where userid=#{id}
+	</select>
+	<!--根据贷款id查询贷款信息  -->
+	<select id="queryOneRentById" parameterType="java.lang.String" resultType="com.zc.dto.Rentinfo">
+		select r.*,u.userid,u.usernickname,u.username,u.usersex,u.userdate,u.usertel,u.usercard,u.useridcard,u.usermail from rentinfo r,userinfo u where rentid=#{rentid} and r.userid=u.userid
+	</select>
+	
+</mapper>

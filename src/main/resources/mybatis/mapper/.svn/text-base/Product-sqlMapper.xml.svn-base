@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.dao.CheckProductDao">
+	<!-- 审核产品时的sql -->
+	<!-- 二级管理查看审核列表 -->
+	<select id="queryProductSecond" resultType="com.zc.dto.Productinfo">
+		select pro.* ,cor.comcorid,cor.comname
+		from
+			productinfo pro ,company cor
+		where pro.comcorid=cor.comid and pro.checksecondmsg=2
+	</select>
+	<!-- 一级管理员审核列表 -->
+	<select id="queryProductList" resultType="com.zc.dto.Productinfo" >
+		select pro.* ,cor.comcorid,cor.comname
+		from
+			productinfo pro ,company cor
+		where pro.comcorid=cor.comid and pro.checksecondmsg =1 and pro.prostatus='审核中'
+	</select>
+	<!-- 根据proid查询详细信息 -->
+	<select id="queryProductDetail" parameterType="java.lang.Integer" resultType="com.zc.dto.Productinfo">
+		select pro.* ,cor.comcorid,cor.comname,em.empname "checksecondname"
+		from
+			productinfo pro ,company cor,emp em
+		where pro.comcorid=cor.comid and pro.proid=em.empid  and pro.proid=#{proid}
+	</select>
+	<select id="queryProductDetailSecond" parameterType="java.lang.Integer" resultType="com.zc.dto.Productinfo">
+		select pro.* ,cor.comcorid,cor.comname
+		from
+			productinfo pro ,company cor
+		where pro.comcorid=cor.comid and pro.proid=#{proid}
+	</select>
+	<!-- 二级审核更新 -->
+	<update id="updateProductSecond" parameterType="com.zc.dto.Productinfo">
+		update productinfo
+		set
+			checksecondid=#{checksecondid},
+			checkseconddate=sysdate(),
+			checksecondmsg=#{checksecondmsg},
+			prostatus=#{prostatus}
+		where proid=#{proid}
+	</update>
+	<!-- 一级审核更新 -->
+	<update id="updateProduct" parameterType="com.zc.dto.Productinfo">
+		update productinfo
+		  set
+			checkfirstid=#{checkfirstid},
+			checkfirstdate=sysdate(),
+			checkfirstmsg=#{checkfirstmsg},
+			prostatus=#{prostatus}
+		where proid=#{proid}
+	</update>
+	<!-- 一级审核完成后查看审核完成列表状态为已审核 -->
+	<select id="lookProduct" resultType="com.zc.dto.Productinfo" parameterType="java.util.HashMap">
+		select pro.* ,cor.comcorid,cor.comname
+		from
+			productinfo pro ,company cor
+		where pro.comcorid=cor.comid and pro.prostatus='已审核'
+		<if test="proname !=null and proname!=''">
+			and pro.proname=#{proname}
+		</if>
+		<if test="proday !=null and proday !=''">
+			and pro.proday=#{proday}
+		</if>
+	</select>
+	<!-- 二级审核完成后查看审核完成列表状态为审核中 -->
+	<select id="lookProductSecond" resultType="com.zc.dto.Productinfo" parameterType="java.util.HashMap" >
+		select pro.* ,cor.comcorid,cor.comname
+		from
+			productinfo pro ,company cor
+		where pro.comcorid=cor.comid and pro.prostatus='审核中'
+		<if test="proname !=null and proname!=''">
+			and pro.proname=#{proname}
+		</if>
+		<if test="proday !=null and proday !=''">
+			and pro.proday=#{proday}
+		</if>
+	</select>  
+</mapper>

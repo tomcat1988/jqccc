@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.dao.UserInfoDao">
+	<select id="getOneUserInfo" parameterType="java.lang.Integer" resultType="com.zc.dto.UserInfo">
+	 	select r.*,u.*,e.empname "checksecondname"
+	 	from 
+		 	rentinfo r,
+		 	userinfo u,
+		 	emp e 
+	 	where 
+	 		r.checksecondid = e.empid
+	 	and
+	 		r.userid=u.userid 
+	 	and
+	 	 	r.rentid=#{rentid}
+	</select>
+	<!-- 二审人员查询一条审核信息-王博 -->
+	<select id="getOneUserInfoSecond" parameterType="java.lang.Integer" resultType="com.zc.dto.UserInfo">
+		select 
+			u.*,r.*
+		from
+			userinfo u,
+			rentinfo r
+		where
+			r.userid = u.userid
+		and
+			r.rentid = #{rentid}
+	</select>
+</mapper>

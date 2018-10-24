@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.dao.RentInfoDao">
+	<!-- 二级管理员查询需要审核的方法 -->
+	<select id="queryRentinfoList" parameterType="com.zc.dto.Rentinfo" resultType="com.zc.dto.Rentinfo">
+	select 
+			r.rentid,
+			u.usernickname,
+			r.checkfirstdate,
+			r.checkfirstid,
+			r.checkfirstmsg,
+			r.checkseconddate,
+			r.checksecondid,
+			r.checksecondmsg,
+			r.rentstatus,
+			r.userappdate,
+			r.userid,
+			r.userpay,
+			r.userpaydate,
+			r.userrent,
+			r.userrentfor
+	from 
+			rentinfo r,userinfo u
+	where		
+			r.userid = u.userid
+	and
+			r.checksecondmsg=2
+	and
+			r.rentstatus='待评估'		
+	<if test="usernickname!=null and usernickname!=''">
+		and u.usernickname = #{usernickname}
+	</if>
+	<if test="rentid!=0 and rentid!=''">
+		and r.rentid = #{rentid}
+	</if>
+	</select>
+	<!-- 一级管理员查询需要审核的方法 -->
+	<select id="queryRentinfoListFirst" parameterType="com.zc.dto.Rentinfo" resultType="com.zc.dto.Rentinfo">
+		select 
+			r.rentid,
+			u.usernickname,
+			r.checkfirstdate,
+			r.checkfirstid,
+			r.checkfirstmsg,
+			r.checkseconddate,
+			r.checksecondid,
+			r.checksecondmsg,
+			r.rentstatus,
+			r.userappdate,
+			r.userid,
+			r.userpay,
+			r.userpaydate,
+			r.userrent,
+			r.userrentfor
+		from 
+			rentinfo r,userinfo u
+		where
+			r.userid = u.userid
+		and		
+			r.checksecondmsg=1
+		and
+			r.rentstatus='待评估'	
+		<if test="usernickname!=null and usernickname!=''">
+			and u.usernickname = #{usernickname}
+		</if>
+		<if test="rentid!=0 and rentid!=''">
+			and r.rentid = #{rentid}
+		</if>
+	</select>
+	<!--二级审核通过   -->
+	<update id="updateRentinfo" parameterType="java.lang.Integer">
+		UPDATE 
+			rentinfo r 
+		set 
+			r.checksecondid=#{checksecondid},
+			r.checkseconddate=SYSDATE(),
+			r.checksecondmsg=#{checksecondmsg},
+			r.rentstatus='待评估'
+		WHERE
+			r.rentid=#{rentid}
+	</update>
+		<!--二级审核不通过   -->
+	<update id="updateRentinfoUn" parameterType="java.lang.Integer">
+		UPDATE 
+			rentinfo r 
+		set 
+			r.checksecondid=#{checksecondid},
+			r.checkseconddate=SYSDATE(),
+			r.checksecondmsg=#{checksecondmsg},
+			r.rentstatus='未通过'
+		WHERE
+			r.rentid=#{rentid}
+	</update>
+	<!--一级审核通过  -->
+	<update id="updateRentinfoFirst" parameterType="java.lang.Integer">
+		UPDATE 
+			rentinfo r 
+		set 
+			r.checkfirstid=#{checkfirstid},
+			r.checkfirstdate=SYSDATE(),
+			r.checkfirstmsg=#{checkfirstmsg},
+			r.rentstatus='通过'
+		WHERE
+			r.rentid=#{rentid}
+	</update>
+	<!--一级审核不通过  -->
+	<update id="updateRentinfoFirstUn" parameterType="java.lang.Integer">
+		UPDATE 
+			rentinfo r 
+		set 
+			r.checkfirstid=#{checkfirstid},
+			r.checkfirstdate=SYSDATE(),
+			r.checkfirstmsg=#{checkfirstmsg},
+			r.rentstatus='未通过'
+		WHERE
+			r.rentid=#{rentid}
+	</update>
+	<!-- 一级管理员查询已审核的方法-王博 -->
+	<select id="queryRentinfoListFirstOK" parameterType="java.util.HashMap" resultType="com.zc.dto.Rentinfo">
+		select 
+			r.rentid,
+			u.usernickname,
+			r.checkfirstdate,
+			r.checkfirstid,
+			r.checkfirstmsg,
+			r.checkseconddate,
+			r.checksecondid,
+			r.checksecondmsg,
+			r.rentstatus,
+			r.userappdate,
+			r.userid,
+			r.userpay,
+			r.userpaydate,
+			r.userrent,
+			r.userrentfor
+		from 
+			rentinfo r,userinfo u
+		where
+			r.userid = u.userid
+		and
+			r.checkfirstid = #{empid}
+		<if test="usernickname!=null and usernickname!=''">
+			and usernickname = #{usernickname}
+		</if>
+		<if test="rentid!=null and rentid!=''">
+			and rentid = #{rentid}
+		</if>
+	</select>
+	<!-- 二级管理员查询已审核的方法-王博 -->
+	<select id="queryRentinfoListSecondOK" parameterType="java.util.HashMap" resultType="com.zc.dto.Rentinfo">
+		select 
+			r.rentid,
+			u.usernickname,
+			r.checkfirstdate,
+			r.checkfirstid,
+			r.checkfirstmsg,
+			r.checkseconddate,
+			r.checksecondid,
+			r.checksecondmsg,
+			r.rentstatus,
+			r.userappdate,
+			r.userid,
+			r.userpay,
+			r.userpaydate,
+			r.userrent,
+			r.userrentfor
+		from 
+			rentinfo r,userinfo u
+		where		
+			r.userid = u.userid
+		and 
+			r.checksecondid = #{empid}
+		<if test="usernickname!=null and usernickname!=''">
+			and u.usernickname = #{usernickname}
+		</if>
+		<if test="rentid!=null and rentid!=''">
+			and r.rentid = #{rentid}
+		</if>
+	</select>
+	<!--  -->
+	<select id="getRentUserid" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		select
+			 count(1)
+		 from 
+		 	rentinfo  
+		 where 
+			 userid =#{userid}
+	</select>
+	<!--给该用户贷款信息  -->
+	<update id="updateRent" parameterType="com.zc.dto.UserInfo" >
+		update userinfo r set  usertel=#{usertel},usercard=#{usercard},usermail=#{usermail} where userid=#{userid}
+	</update>
+</mapper>

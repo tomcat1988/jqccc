@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.dao.CheckFinanceinfoDao">
+	<!-- 一级审核人员查询所有法人信息 -->
+	<select id="queryFinaListFirst" resultType="com.zc.dto.Financeinfo" parameterType="com.zc.dto.Financeinfo">
+		select
+			fi.finid,
+			fi.userid,
+			fi.proid,
+			us.useridcard,
+			us.usernickname,
+			us.usercard,
+			us.usertel, 
+			pr.proname,
+			pr.protype,
+			pr.proprice,
+			pr.proprofit
+		from
+			financeinfo fi 
+		left join 
+			productinfo pr 
+		on
+			fi.proid = pr.proid
+		left join
+			userinfo us
+		on
+			fi.userid = us.userid
+		where
+			fi.checksecondmsg = 1
+		and 
+			fi.finstatus = '待审核'
+		<if test="finid!=0 ">
+		and
+			fi.finid=#{finid}
+		</if>
+		<if test="usernickname!='' and usernickname!=null ">
+		and
+			us.usernickname=#{usernickname}
+		</if>	
+	</select>
+	<!-- 二级审核人员查询所有法人信息 -->
+	<select id="queryFinaListSecond" resultType="com.zc.dto.Financeinfo" parameterType="com.zc.dto.Financeinfo">
+		select
+			fi.finid,
+			fi.userid,
+			fi.proid,
+			us.useridcard,
+			us.usernickname,
+			us.usercard,
+			us.usertel,
+			pr.proname,
+			pr.protype,
+			pr.proprice,
+			pr.proprofit
+		from
+			financeinfo fi 
+		left join 
+			productinfo pr 
+		on
+			fi.proid = pr.proid
+		left join
+			userinfo us
+		on
+			fi.userid = us.userid
+		where
+			fi.checksecondmsg = 2
+		<if test="finid!=0 and finid!='' ">
+		and
+			fi.finid=#{finid}
+		</if>
+		<if test="usernickname!='' and usernickname!=null ">
+		and
+			us.usernickname=#{usernickname}
+		</if>	
+	</select>
+	<!-- 通过id查询单个理财的详细信息以便一审人员审核 -->
+	<select id="queryFinaOneFirst" parameterType="java.lang.Integer" resultType="com.zc.dto.Financeinfo">
+		select
+			fi.finid,
+			fi.userid,
+			fi.proid,
+			fi.userrmb,
+			fi.checkfirstmsg,
+			us.useridcard,
+			us.usernickname,
+			us.usersex,
+			us.userdate,
+			us.usercard,
+			us.usermarry,
+			us.usertel,
+			us.usermail,
+			us.useraddress_now,
+			em.empname "checksecondname",
+			us.usercomname,
+			us.usercomjob,
+			us.usermoney,
+			pr.proname,
+			pr.protype,
+			pr.probank,
+			pr.proday,
+			pr.comname,
+			pr.proprice,
+			pr.riskassess,
+			pr.proprofit,
+			fi.checkseconddate,
+			fi.checksecondmsg,
+			ci.checkidcard
+		from
+			financeinfo fi 
+		left join 
+			productinfo pr 
+		on 
+			fi.proid = pr.proid
+		left join 
+			userinfo us
+		on 
+			fi.userid = us.userid
+		left join
+			emp em
+		on
+			fi.checksecondid = em.empid
+		left JOIN
+			checkinfo ci
+		on
+			fi.userid = ci.userid
+		where
+			fi.finid = #{finid}
+	</select>
+	<!-- 通过id查询单个理财的详细信息以便二审人员审核 -->
+	<select id="queryFinaOneSecond" parameterType="java.lang.Integer" resultType="com.zc.dto.Financeinfo">
+		select
+			fi.finid,
+			fi.userid,
+			fi.proid,
+			fi.userrmb,
+			fi.checksecondmsg,
+			us.useridcard,
+			us.usernickname,
+			us.usersex,
+			us.userdate,
+			us.usercard,
+			us.usermarry,
+			us.usertel,
+			us.usermail,
+			us.useraddress_now,
+			us.usercomname,
+			us.usercomjob,
+			us.usermoney,
+			pr.proname,
+			pr.protype,
+			pr.probank,
+			pr.proday,
+			pr.comname,
+			pr.proprice,
+			pr.riskassess,
+			pr.proprofit
+		from
+			financeinfo fi 
+		left join 
+			productinfo pr 
+		on 
+			fi.proid = pr.proid
+		left join 
+			userinfo us
+		on 
+			fi.userid = us.userid
+		where
+			fi.finid = #{finid}
+	</select>
+	<!-- 添加一审人员审核信息 -->
+	<update id="checkFirst" parameterType="com.zc.dto.Financeinfo">
+		update financeinfo
+		set
+			checkfirstid=#{checkfirstid},
+			checkfirstdate=sysdate(),
+			checkfirstmsg=#{checkfirstmsg},
+			finstatus=#{finstatus}
+		where
+			finid = #{finid}
+	</update>
+	<!-- 添加二审人员审核信息 -->
+	<update id="checkSecond" parameterType="com.zc.dto.Financeinfo">
+		update financeinfo
+		set
+			checksecondid=#{checksecondid},
+			checkseconddate=sysdate(),
+			checksecondmsg=#{checksecondmsg},
+			finstatus=#{finstatus,jdbcType=VARCHAR}
+		where
+			finid = #{finid}
+	</update>
+	<!-- 查询用户是否查询过身份证信息 -->
+	<select id="queryCheckinfoByUserid" parameterType="java.lang.Integer" resultType="com.zc.dto.Checkinfo">
+		select 
+			userid,
+			checkidcard,
+			checkcredit,
+			checkfraud
+		from
+			checkinfo
+		where
+			userid = #{userid}
+	</select>
+	<!--查询一级和二级审核人员审核过的法人信息  -->
+	<select id="queryFinaListByCheck" resultType="com.zc.dto.Financeinfo" parameterType="java.util.HashMap" >
+		SELECT * from 
+			financeinfo f,
+			userinfo u,
+			productinfo p  
+		WHERE 
+			f.userid=u.userid 
+		and
+			f.proid=p.proid
+		and 
+			f.checksecondid=#{empid}
+		<if test="finid!='' and finid!=null ">
+			and
+				f.finid=#{finid}
+		</if>	
+		<if test="usernickname!=null and usernickname!='' ">
+			and
+				u.usernickname=#{usernickname}
+		</if>
+	</select>
+	
+	<!-- 一级审核人员审核过的法人信息 -->
+	<select id="queryFinaListByCheckone" resultType="com.zc.dto.Financeinfo" parameterType="java.util.HashMap" >
+		SELECT * from 
+			financeinfo f,
+			userinfo u,
+			productinfo p  
+		WHERE 
+			f.userid=u.userid 
+		and
+			f.proid=p.proid
+		and 
+			f.checkfirstid=#{empid}
+		<if test="finid!='' and finid!=null ">
+			and
+				f.finid=#{finid}
+		</if>	
+		<if test="usernickname!=null and usernickname!='' ">
+			and
+				u.usernickname=#{usernickname}
+		</if>
+	</select>
+
+	<!--根据id修改用户信息  -->
+
+	
+	<!--根据id修改理财产品  -->
+
+	<update id="updateFina" parameterType="com.zc.dto.UserInfo">
+		UPDATE 
+			UserInfo u 
+		set 
+			u.useridcard=#{useridcard,jdbcType=VARCHAR},
+			u.usercard=#{usercard,jdbcType=VARCHAR},
+			u.usermail=#{usermail,jdbcType=VARCHAR},
+			u.usertel=#{usertel,jdbcType=VARCHAR}
+		 where 
+			u.userid=#{userid}
+	</update>
+	
+	<!--通过用户ID查询用户所有理财记录  -->
+	<select id="allFinById" resultType="com.zc.dto.Financeinfo" parameterType="java.lang.Integer">
+		SELECT f.*,p.proname,p.protype,p.proday,p.proprofit,p.prostatus,p.proenddate from
+			financeinfo f,productinfo p
+		where f.userid=#{id}
+		and f.proid=p.proid 
+	</select>
+	<!-- 根据用户id查询用户是否购买过产品  -->
+	<select id="getFinaUserid" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		select 
+			count(1)
+		from 
+			financeinfo  
+		where 
+			userid =#{userid}
+	</select>
+	<!--  -->
+	<select id="getFinaProfit" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		select 
+			count(1)
+		from 
+			financeinfo  
+		where 
+			userid =#{userid}
+	</select>
+</mapper>

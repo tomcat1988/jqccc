@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.dao.UserDao">
+	<select id="userLogin" parameterType="com.zc.dto.UserInfo"  resultType="com.zc.dto.UserInfo">
+		select * from userinfo where username=#{username} and userpwd=#{userpwd}
+	</select>
+	<select id="queryUserList" resultType="com.zc.dto.UserInfo" >
+		select
+			userid,
+		 	username,
+		 	useridcard,
+			usernickname,
+		 	usersex,
+		 	userdate,
+		 	usercard,
+		 	usermarry,
+		 	usertel,
+			usermail,
+		 	usercomname,
+		 	usercomjob,
+		 	usercredit,
+			usermoney,
+			useraddress,
+			usercomaddress,
+			useraddress_now
+		from userinfo 
+	</select>
+	<insert id="addUser" parameterType="com.zc.dto.UserInfo">
+		insert into userinfo
+			(username,userpwd,usertel) 
+		values(#{username},#{userpwd},#{usertel})
+	</insert>
+	<select id="querydetail" resultType="com.zc.dto.UserInfo" parameterType="java.lang.Integer">
+		select 
+			userid,
+			username,
+			userpwd,
+		 	useridcard,
+			usernickname,
+		 	usersex,
+		 	userdate,
+		 	usercard,
+		 	usermarry,
+		 	usertel,
+			usermail,
+		 	usercomname,
+		 	usercomjob,
+		 	usercredit,
+			usermoney,
+			useraddress,
+			usercomaddress,
+			useraddress_now
+			from userinfo
+			where userid=#{userid}
+	</select>
+	<update id="updateUserById" parameterType="com.zc.dto.UserInfo">
+		update userinfo set usernickname=#{usernickname},
+			usertel=#{usertel},
+			userpwd=#{userpwd},
+			usercomaddress=#{usercomaddress},
+			useraddress_now=#{useraddress_now},
+			usermoney=#{usermoney},
+			usermail=#{usermail}
+		where userid=#{userid}
+	</update>
+	<!--查询贷款总额  -->
+	<select id="getRentCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		select 
+			SUM(userrent) 
+		from 
+			rentinfo 
+		WHERE 
+			userid=#{userid}
+	</select>
+	<!--查询理财总额  -->
+	<select id="getFinaCount" parameterType="java.lang.Integer" resultType="java.lang.Double">
+			select 
+				SUM(userrmb)  
+			from 
+				financeinfo 
+			WHERE 
+				userid=#{userid}
+	</select>
+	<!--查询利润  -->
+	<select id="getFinaProfit" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+			select 
+				SUM(profit)  
+			from 
+				financeinfo 
+			where 
+				userid=#{userid}
+	</select>
+	<!-- 通过电话号码获取用户信息 -->
+	<select id="getUserByTel" resultType="com.zc.dto.UserInfo" parameterType="java.lang.String">
+		select 	* from userinfo where usertel=#{usertel}
+	</select>
+	<!-- 通过用户名获取用户信息 -->
+	<select id="getUserByName" resultType="com.zc.dto.UserInfo" parameterType="java.lang.String">
+		select 	* from userinfo where username=#{username}
+	</select>
+	<!-- 忘记密码 -->
+	<update id="forgetpwd">
+		update userinfo set userpwd=#{userpwd} where userid=#{userid}
+	</update>
+</mapper>

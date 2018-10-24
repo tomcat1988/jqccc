@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.dao.EmpDao">
+	<select id="empLogin" parameterType="com.zc.dto.Emp"  resultType="com.zc.dto.Emp">
+		select * from emp where empusername=#{empusername} and emppwd=#{emppwd} and isdel = 0
+	</select>
+	<!--超级管理员对员工的增加操作  -->
+	<insert id="addEmp" parameterType="com.zc.dto.Emp">
+		insert into emp (empusername,emppwd,empname,power) values(#{empusername},#{emppwd},#{empname},#{power})
+	</insert>
+	<!--查询员工信息  -->
+	<select id="selectEmp" parameterType="com.zc.dto.Emp" resultType="com.zc.dto.Emp">
+		select * from emp where isdel = 0
+		<if test="likeName!=null and likeName!=''">
+			and empname like concat(concat('%',#{likeName}),'%')
+		</if>
+	</select>
+	<!--修改员工信息  -->
+	<update id="updateEmp" parameterType="com.zc.dto.Emp">
+		update emp set 
+			empusername=#{empusername},
+			emppwd=#{emppwd},
+			empname=#{empname},
+			power=#{power}
+		where 
+			empid=#{empid}
+	</update>
+	<!--修改员工信息前查询用户信息  -->
+	<select id="selectEmpById" parameterType="java.lang.String" resultType="com.zc.dto.Emp">
+		select * from emp where empid=#{id} 
+	</select>
+	<!--删除员工信息的逻辑删除  -->
+	<update id="deleteEmp" parameterType="java.util.ArrayList">
+		update emp set isdel=1 where empid in 
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</update>
+	<!-- 个人修改员工个人信息 -->
+	<update id="updateUserInfoByEmpid" parameterType="com.zc.dto.Emp">
+		update emp set
+			empusername = #{empusername,jdbcType=VARCHAR},
+			emppwd = #{emppwd},
+			empname = #{empname,jdbcType=VARCHAR}
+		where
+			empid = #{empid}
+	</update>
+</mapper>
