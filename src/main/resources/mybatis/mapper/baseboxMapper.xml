@@ -33,7 +33,8 @@
         modifyby,
         modifydt
         )
-        values(
+        values
+        (
         #{boxcode},
         #{boxname},
         #{boxtype},
@@ -51,7 +52,7 @@
 	</delete>
 	
 	
-    <select id="selectList"   resultMap="baseResultMap">
+    <select id="getAllBaseBox"   resultMap="baseResultMap">
 		select * from base_box
 	<where>
 		<if test="cm.boxcode != null and cm.boxcode != ''">

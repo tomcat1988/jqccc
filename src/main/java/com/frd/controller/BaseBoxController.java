@@ -53,7 +53,7 @@ public class BaseBoxController {
 	public ModelAndView  getAllBaseBox(HttpServletRequest request) {
 		Map<String, Object> map=new HashMap<String, Object>();
 		ModelAndView modelAndView=new ModelAndView();
-		map.put("name", request.getAttribute("11"));
+		map.put("name", request.getAttribute("name"));
 		List<BaseBox> allBaseBox = boxService.getAllBaseBox(map);
 		if(!allBaseBox.isEmpty()) {
 			modelAndView.addObject("allBaseBox", allBaseBox);

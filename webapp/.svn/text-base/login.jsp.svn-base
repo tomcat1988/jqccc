@@ -1,0 +1,104 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>p2p网贷平台</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+
+
+<script type="text/javascript"  src="<%=basePath%>jq/jquery.js"></script>
+<link rel="stylesheet" href="css/biacklogin.css" type="text/css" media="all">
+<script type="application/x-javascript">addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<script type="text/javascript" src="<%=basePath%>Jquery/jquery-1.7.2.min.js"></script>
+</head>
+<body>
+
+<h1>富二贷公司欢迎你</h1>
+
+	<div class="container w3layouts agileits">
+
+		<div class="login w3layouts agileits">
+			<h2>登 录</h2>
+			<form action="<%=basePath%>user/login" method="post">
+				<input type="text" name="username" value="${cookie.nameCook.value }" placeholder="用户名" required="">
+				<input type="password" name="userpwd" value="${cookie.pwdCook.value }" placeholder="密码" required="">
+			</form>
+			<ul class="tick w3layouts agileits">
+				<li>
+					<input type="checkbox" name="savesid" id="brand1" value="yes">
+					<label for="brand1"><span></span>记住我</label>
+				</li>
+			</ul>
+			<div class="send-button w3layouts agileits">
+				<form >
+					<input type="button" value="登 录" onclick="sub()">
+				</form>
+			</div>
+			<a href="forgotpsw.jsp">忘记密码?</a>&nbsp;&nbsp;<a href="<%=basePath%>index.jsp">返回首页</a>
+			<div class="social-icons w3layouts agileits">
+				<p>- 其他方式登录 -</p>
+				<ul>
+					<li class="qq"><a href="#">
+					<span class="icons w3layouts agileits"></span>
+					<span class="text w3layouts agileits">QQ</span></a></li>
+					<li class="weixin w3ls"><a href="#">
+					<span class="icons w3layouts"></span>
+					<span class="text w3layouts agileits">微信</span></a></li>
+					<li class="weibo aits"><a href="#">
+					<span class="icons agileits"></span>
+					<span class="text w3layouts agileits">微博</span></a></li>
+					<div class="clear"> </div>
+				</ul>
+			</div>
+			
+			<div class="clear"></div>
+	</div>
+<div class="clear"></div>	
+	<div class="footer w3layouts agileits">
+		<p>Copyright &copy; More Templates</p>
+	</div>
+
+</div> 
+	
+<script type="text/javascript">
+		 function sub(){
+			var username=$("input[name='username']").val();
+			var userpwd=$("input[name='userpwd']").val();
+			var saveid=$("input[name='savesid']").val()
+			$.ajax({
+				url:"<%=basePath%>user/login",
+				data:{"username":username,"userpwd":userpwd,"savesid":saveid},
+				dataType:"json",
+				type:"post",
+				success:function(data){
+					if(data.result=="success"){
+						location.href="<%=basePath%>index.jsp"; 
+					}else{
+						alert("用户名或者密码错误");
+					}
+				},
+				error:function(data){
+					alert("请求失败");
+				}
+			});
+		} 
+		
+		</script>	
+
+	
+	
+		
+
+	
+
+
+ </body>
+</html>

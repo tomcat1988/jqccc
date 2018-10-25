@@ -1,0 +1,101 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
+ <%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>   
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<header>
+  <div class="header-top min-width">
+    <div class="container fn-clear"> <strong class="fn-left">咨询热线：400-888-8888<span class="s-time">服务时间：9:00 - 18:00</span></strong>
+      <ul class="header_contact">
+        <li class="c_1"> <a class="ico_head_weixin" id="wx"></a>
+          <div class="ceng" id="weixin_xlgz" style="display: none;">
+            <div class="cnr"> <img src="<%=basePath%>images/fuerdaicode.png"> </div><!-- 微信二维码-->
+            <b class="ar_up ar_top"></b> <b class="ar_up_in ar_top_in"></b> </div>
+        </li>
+        <li class="c_2"><a href="#" target="_blank" title="官方QQ" alt="官方QQ"><b class="ico_head_QQ"></b></a></li>
+        <li class="c_4"><a href="#" target="_blank" title="新浪微博" alt="新浪微博"><b class="ico_head_sina"></b></a></li>
+      </ul>
+		<!-- 如果没有登录，跳这-->
+			<c:if test="${userinfo==null }">
+				<ul class="fn-right header-top-ul">
+					<li><a href="<%=basePath%>index.jsp" class="app">返回首页</a></li>
+					<li>
+						<div class="">
+							<a href="<%=basePath%>register.jsp" class="c-orange" title="免费注册">免费注册</a>
+						</div>
+					</li>
+					<li>
+						<div class="">
+							<a href="<%=basePath%>login.jsp" class="js-login" title="登录">登录</a>
+						</div>
+					</li>
+				</ul>
+			</c:if>
+		<!-- 如果已经登录，跳这-->
+			<c:if test="${userinfo!=null }">
+				<ul class="fn-right header-top-ul">
+					<li><a href="<%=basePath%>index.jsp" class="app">返回首页</a></li>
+					<li>
+						<div class="">
+							<a href="<%=basePath%>accounts.jsp" class="c-orange" title="名字">${userinfo.usernickname }</a>
+						</div>
+					</li>
+					<li>
+						<div class="">
+							<a href="<%=basePath%>user/out" class="js-login" title="退出">退出</a>
+						</div>
+					</li>
+				</ul>
+			</c:if>
+
+    </div>
+  </div>
+  <div class="header min-width">
+    <div class="container">
+      <div class="fn-left logo"> <a class="" href="<%=basePath%>index.jsp"> <img src="<%=basePath%>images/fuerdailogo.png"  title=""> </a> </div><!-- logo图标，需要把图片换成我们自己的-->
+      <ul class="top-nav fn-clear">
+        <li > <a href="<%=basePath%>index.jsp">首页</a> </li>
+        <li> <a href="<%=basePath%>pro/tipp/4" >我要投资</a> </li>
+        <li> <a onclick="keys()">我要借款</a> </li>
+        <li> <a href="<%=basePath%>help.jsp">安全保障</a> </li>
+        <li class="top-nav-safe" > <a onclick="accounts()">我的账户</a> <!-- <a href="<%=basePath%>/accounts.jsp" onclick="keys();">我的账户</a>  --></li><!-- 我的账户，需要判断是否已经登录-->
+        <li> <a href="<%=basePath %>inform.jsp">关于我们</a> </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<script type="text/javascript">
+	function keys(){<!-- 判断是否登录事件keys()-->
+		var id="${userinfo.userid}";
+		if(id!=""){
+			window.location.href="<%=basePath%>/borrowadd.jsp";
+		}else {
+			alert("请先登入!");
+			window.location.href="<%=basePath%>/login.jsp";
+		}
+	}
+	function accounts(){<!-- 判断是否登录事件accounts()-->
+		var id="${userinfo.userid}";
+		if(id!=""){
+			window.location.href="<%=basePath%>/accounts.jsp";
+		}else {
+			alert("请先登入!");
+			window.location.href="<%=basePath%>/login.jsp";
+		}
+	}
+</script> 
+
+</body>
+</html>
