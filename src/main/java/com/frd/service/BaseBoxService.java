@@ -1,5 +1,4 @@
-package com.frd.service;
-
+﻿package com.frd.service;
 import java.util.List;
 import java.util.Map;
 
@@ -7,11 +6,11 @@ import com.frd.model.BaseBox;
 
 public interface BaseBoxService {
 	/**
-	 * @param baseBox
+	 * @param basebox
 	 * @return
 	 * 添加
 	 */
-	public  Integer  addBaseBox(BaseBox baseBox );
+	public  Integer  addBaseBox(BaseBox basebox);
 	
 	
 	/**
@@ -40,10 +39,10 @@ public interface BaseBoxService {
 	
 	
 	/**
-	 * @param baseBox
+	 * @param basebox
 	 * @return
 	 * 修改
 	 */
-	public Integer updateBaseBox(BaseBox baseBox);
+	public Integer updateBaseBox(BaseBox basebox);
 	
 }

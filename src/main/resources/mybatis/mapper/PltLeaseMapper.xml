@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.frd.mapper.PltLeaseMapper">
+	<resultMap id="baseResultMap" type="com.frd.model.PltLease">
+		<result column="rowid" property="rowid" />
+		<result column="pltname" property="pltname" />
+		<result column="plttype" property="plttype" />
+		<result column="qty" property="qty" />
+		<result column="customer" property="customer" />
+		<result column="leasedt" property="leasedt" />
+		<result column="edt" property="edt" />
+		<result column="adt" property="adt" />
+		<result column="backqty" property="backqty" />
+		<result column="remark" property="remark" />
+		<result column="creator" property="creator" />
+		<result column="createdt" property="createdt" />
+		<result column="modifyby" property="modifyby" />
+		<result column="modifydt" property="modifydt" />
+	</resultMap>
+      <!--新增-->
+	<insert id="addPltLease" parameterType="com.frd.model.PltLease" >
+		insert into plt_lease (
+        pltname,
+        plttype,
+        qty,
+        customer,
+        leasedt,
+        edt,
+        adt,
+        backqty,
+        remark,
+        creator,
+        createdt,
+        modifyby,
+        modifydt)
+        values(
+        #{pltname},
+        #{plttype},
+        #{qty},
+        #{customer},
+        #{leasedt},
+        #{edt},
+        #{adt},
+        #{backqty},
+        #{remark},
+        #{creator},
+        #{createdt},
+        #{modifyby},
+        #{modifydt})
+	</insert>
+     <!--删除-->
+     <delete id="deletePltLease">
+		delete from plt_lease 
+        where rowid=#{rowid}
+	</delete>
+    <!--查询-->
+	<select id="getOnePltLease" >
+		select * from plt_lease where rowid=#{rowid}
+	</select>
+    <select id="getAllPltLease" resultMap="baseResultMap" >
+		select * from plt_lease 
+   <where>
+		<if test="cm.boxcode != null and cm.boxcode != ''">
+		and boxcode like CONCAT('%',#{cm.boxcode},'%')
+		</if>
+		<if test="cm.boxname != null and cm.boxname != ''">
+		and boxname like CONCAT('%',#{cm.boxname},'%')
+		</if>
+		<if test="cm.boxtype != null and cm.boxtype != ''">
+		and boxtype like CONCAT('%',#{cm.boxtype},'%')
+		</if>
+		<if test="cm.startDate != null and cm.startDate != ''">
+		and createdt &gt; = #{cm.startDate}
+		</if>
+		<if test="cm.endDate != null and cm.endDate != ''">
+		and createdt &lt; = #{cm.endDate}
+		</if>
+    </where>
+	</select>
+   
+	 <!--修改-->
+	<update id="updatePltLease">
+		update plt_lease 
+        set 
+        pltname=#{pltname},
+        plttype=#{plttype},
+        qty=#{qty},
+        customer=#{customer},
+        leasedt=#{leasedt},
+        edt=#{edt},
+        adt=#{adt},
+        backqty=#{backqty},
+        remark=#{remark},
+        creator=#{creator},
+        createdt=#{createdt},
+        modifyby=#{modifyby},
+        modifydt=#{modifydt}
+        where rowid=#{rowid}
+	</update>
+</mapper>

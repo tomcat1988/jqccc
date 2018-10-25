@@ -6,21 +6,21 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.frd.model.BaseBox;
+import com.frd.model.ColdWarn;
 
 /**
  * @author Administrator
  *
  */
 @Mapper
-public interface BaseBoxMapper {
+public interface ColdWarnMapper {
 
 	/**
-	 * @param basebox
+	 * @param coldwarn
 	 * @return
 	 * 添加
 	 */
-	public  Integer  addBaseBox(BaseBox basebox );
+	public  Integer  addColdWarn(ColdWarn coldwarn );
 	
 	
 	/**
@@ -28,7 +28,7 @@ public interface BaseBoxMapper {
 	 * @return
 	 * 删除
 	 */
-	public 	Integer  deleteBaseBox(Integer id);
+	public 	Integer  deleteColdWarn(Integer id);
 	
 	
 	/**
@@ -36,7 +36,7 @@ public interface BaseBoxMapper {
 	 * @return
 	 * 查询所有的信息(带条件)
 	 */
-	public List<BaseBox> getAllBaseBox( @Param("cm") Map<String,Object> map);
+	public List<ColdWarn> getAllColdWarn( @Param("cm") Map<String,Object> map);
 	
 	
 	
@@ -45,15 +45,15 @@ public interface BaseBoxMapper {
 	 * @return
 	 * 查询一条数据
 	 */
-	public BaseBox getOneBaseBox(Integer id);
+	public ColdWarn getOneColdWarn(Integer id);
 	
 	
 	/**
-	 * @param basebox
+	 * @param coldwarn
 	 * @return
 	 * 修改
 	 */
-	public Integer updateBaseBox(BaseBox basebox);
+	public Integer updateColdWarn(ColdWarn coldwarn);
 	
 }
 

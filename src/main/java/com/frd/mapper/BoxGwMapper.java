@@ -6,21 +6,21 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.frd.model.BaseBox;
+import com.frd.model.BoxGw;
 
 /**
  * @author Administrator
  *
  */
 @Mapper
-public interface BaseBoxMapper {
+public interface BoxGwMapper {
 
 	/**
-	 * @param basebox
+	 * @param boxgw
 	 * @return
 	 * 添加
 	 */
-	public  Integer  addBaseBox(BaseBox basebox );
+	public  Integer  addBoxGw(BoxGw boxgw );
 	
 	
 	/**
@@ -28,7 +28,7 @@ public interface BaseBoxMapper {
 	 * @return
 	 * 删除
 	 */
-	public 	Integer  deleteBaseBox(Integer id);
+	public 	Integer  deleteBoxGw(Integer id);
 	
 	
 	/**
@@ -36,7 +36,7 @@ public interface BaseBoxMapper {
 	 * @return
 	 * 查询所有的信息(带条件)
 	 */
-	public List<BaseBox> getAllBaseBox( @Param("cm") Map<String,Object> map);
+	public List<BoxGw> getAllBoxGw( @Param("cm") Map<String,Object> map);
 	
 	
 	
@@ -45,15 +45,15 @@ public interface BaseBoxMapper {
 	 * @return
 	 * 查询一条数据
 	 */
-	public BaseBox getOneBaseBox(Integer id);
+	public BoxGw getOneBoxGw(Integer id);
 	
 	
 	/**
-	 * @param basebox
+	 * @param boxgw
 	 * @return
 	 * 修改
 	 */
-	public Integer updateBaseBox(BaseBox basebox);
+	public Integer updateBoxGw(BoxGw boxgw);
 	
 }
 

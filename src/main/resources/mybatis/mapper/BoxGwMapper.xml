@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.frd.mapper.BoxGwMapper">
+	<resultMap id="baseResultMap" type="com.frd.model.BoxGw">
+		<result column="rowid" property="rowid" />
+		<result column="boxcode" property="boxcode" />
+		<result column="boxname" property="boxname" />
+		<result column="gwtime" property="gwtime" />
+		<result column="gw" property="gw" />
+		<result column="remark" property="remark" />
+		<result column="creator" property="creator" />
+		<result column="createdt" property="createdt" />
+		<result column="modifyby" property="modifyby" />
+		<result column="modifydt" property="modifydt" />
+	</resultMap>
+      <!--新增-->
+	<insert id="addBoxGw" parameterType="com.frd.model.BoxGw" >
+		insert into box_gw (
+        boxcode,
+        boxname,
+        gwtime,
+        gw,
+        remark,
+        creator,
+        createdt,
+        modifyby,
+        modifydt)
+        values(
+        #{boxcode},
+        #{boxname},
+        #{gwtime},
+        #{gw},
+        #{remark},
+        #{creator},
+        #{createdt},
+        #{modifyby},
+        #{modifydt})
+	</insert>
+     <!--删除-->
+     <delete id="deleteBoxGw">
+		delete from box_gw 
+        where rowid=#{rowid}
+	</delete>
+    <!--查询-->
+	<select id="getOneBoxGw" >
+		select * from box_gw where rowid=#{rowid}
+	</select>
+    <select id="getAllBoxGw" resultMap="baseResultMap" >
+		select * from box_gw 
+   <where>
+		<if test="cm.boxcode != null and cm.boxcode != ''">
+		and boxcode like CONCAT('%',#{cm.boxcode},'%')
+		</if>
+		<if test="cm.boxname != null and cm.boxname != ''">
+		and boxname like CONCAT('%',#{cm.boxname},'%')
+		</if>
+		<if test="cm.boxtype != null and cm.boxtype != ''">
+		and boxtype like CONCAT('%',#{cm.boxtype},'%')
+		</if>
+		<if test="cm.startDate != null and cm.startDate != ''">
+		and createdt &gt; = #{cm.startDate}
+		</if>
+		<if test="cm.endDate != null and cm.endDate != ''">
+		and createdt &lt; = #{cm.endDate}
+		</if>
+    </where>
+	</select>
+   
+	 <!--修改-->
+	<update id="updateBoxGw">
+		update box_gw 
+        set 
+        boxcode=#{boxcode},
+        boxname=#{boxname},
+        gwtime=#{gwtime},
+        gw=#{gw},
+        remark=#{remark},
+        creator=#{creator},
+        createdt=#{createdt},
+        modifyby=#{modifyby},
+        modifydt=#{modifydt}
+        where rowid=#{rowid}
+	</update>
+</mapper>

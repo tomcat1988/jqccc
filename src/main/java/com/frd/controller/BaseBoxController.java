@@ -1,4 +1,4 @@
-package com.frd.controller;
+﻿package com.frd.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,8 +23,8 @@ public class BaseBoxController {
 	private  BaseBoxService boxService;
 	
 	@RequestMapping(value="add/basebox")
-	public ModelAndView  addBaseBox(BaseBox baseBox) {
-		Integer addBaseBox = boxService.addBaseBox(baseBox);
+	public ModelAndView  addBaseBox(BaseBox basebox) {
+		Integer addBaseBox = boxService.addBaseBox(basebox);
 		if(addBaseBox!=null) {
 			return new ModelAndView("main.jsp");
 		}else {
@@ -39,7 +39,7 @@ public class BaseBoxController {
 	}
 	
 	
-	@RequestMapping(value="getOne/base")
+	@RequestMapping(value="getOne/basebox")
 	public  ModelAndView getOneBaseBox(Integer id) {
 		BaseBox oneBaseBox = boxService.getOneBaseBox(id);
 		if(oneBaseBox!=null) {
@@ -65,8 +65,8 @@ public class BaseBoxController {
 	
 	
 	@RequestMapping(value="update/basebox")
-	public String updateBaseBox(BaseBox baseBox) {
-		Integer updateBaseBox = boxService.updateBaseBox(baseBox);
+	public String updateBaseBox(BaseBox basebox) {
+		Integer updateBaseBox = boxService.updateBaseBox(basebox);
 		if(updateBaseBox!=null) {
 			return "";
 		}else {
@@ -79,3 +79,4 @@ public class BaseBoxController {
 	}
 	
 }
+

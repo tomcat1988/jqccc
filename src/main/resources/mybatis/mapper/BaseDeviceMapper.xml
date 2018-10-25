@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.frd.mapper.BaseDeviceMapper">
+	<resultMap id="baseResultMap" type="com.frd.model.BaseDevice">
+		<result column="rowid" property="rowid" />
+		<result column="devicecode" property="devicecode" />
+		<result column="devicename" property="devicename" />
+		<result column="devicetype" property="devicetype" />
+		<result column="standard" property="standard" />
+		<result column="status" property="status" />
+		<result column="creator" property="creator" />
+		<result column="createdt" property="createdt" />
+		<result column="modifyby" property="modifyby" />
+		<result column="modifydt" property="modifydt" />
+	</resultMap>
+      <!--新增-->
+	<insert id="addBaseDevice" parameterType="com.frd.model.BaseDevice" >
+		insert into base_device (
+        devicecode,
+        devicename,
+        devicetype,
+        standard,
+        status,
+        creator,
+        createdt,
+        modifyby,
+        modifydt)
+        values(
+        #{devicecode},
+        #{devicename},
+        #{devicetype},
+        #{standard},
+        #{status},
+        #{creator},
+        #{createdt},
+        #{modifyby},
+        #{modifydt})
+	</insert>
+     <!--删除-->
+     <delete id="deleteBaseDevice">
+		delete from base_device 
+        where rowid=#{rowid}
+	</delete>
+    <!--查询-->
+	<select id="getOneBaseDevice" >
+		select * from base_device where rowid=#{rowid}
+	</select>
+    <select id="getAllBaseDevice" resultMap="baseResultMap" >
+		select * from base_device 
+   <where>
+		<if test="cm.boxcode != null and cm.boxcode != ''">
+		and boxcode like CONCAT('%',#{cm.boxcode},'%')
+		</if>
+		<if test="cm.boxname != null and cm.boxname != ''">
+		and boxname like CONCAT('%',#{cm.boxname},'%')
+		</if>
+		<if test="cm.boxtype != null and cm.boxtype != ''">
+		and boxtype like CONCAT('%',#{cm.boxtype},'%')
+		</if>
+		<if test="cm.startDate != null and cm.startDate != ''">
+		and createdt &gt; = #{cm.startDate}
+		</if>
+		<if test="cm.endDate != null and cm.endDate != ''">
+		and createdt &lt; = #{cm.endDate}
+		</if>
+    </where>
+	</select>
+   
+	 <!--修改-->
+	<update id="updateBaseDevice">
+		update base_device 
+        set 
+        devicecode=#{devicecode},
+        devicename=#{devicename},
+        devicetype=#{devicetype},
+        standard=#{standard},
+        status=#{status},
+        creator=#{creator},
+        createdt=#{createdt},
+        modifyby=#{modifyby},
+        modifydt=#{modifydt}
+        where rowid=#{rowid}
+	</update>
+</mapper>
