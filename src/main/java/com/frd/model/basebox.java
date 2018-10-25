@@ -10,7 +10,12 @@ public class BaseBox implements Serializable
 {
 
 
-    //自增主键
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	//自增主键
     public Integer rowid ;
 
     //岗亭编号

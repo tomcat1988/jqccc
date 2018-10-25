@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.frd.model.BaseBox;
 
@@ -35,7 +36,7 @@ public interface BaseBoxMapper {
 	 * @return
 	 * 查询所有的信息(带条件)
 	 */
-	public List<BaseBox> getAllBaseBox(Map<String,Object> map);
+	public List<BaseBox> getAllBaseBox( @Param("cm") Map<String,Object> map);
 	
 	
 	
