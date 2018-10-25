@@ -6,21 +6,21 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.frd.model.BaseBox;
+import com.frd.model.PltPallet;
 
 /**
  * @author Administrator
  *
  */
 @Mapper
-public interface BaseBoxMapper {
+public interface PltPalletMapper {
 
 	/**
-	 * @param basebox
+	 * @param pltpallet
 	 * @return
 	 * 添加
 	 */
-	public  Integer  addBaseBox(BaseBox basebox );
+	public  Integer  addPltPallet(PltPallet pltpallet );
 	
 	
 	/**
@@ -28,7 +28,7 @@ public interface BaseBoxMapper {
 	 * @return
 	 * 删除
 	 */
-	public 	Integer  deleteBaseBox(Integer id);
+	public 	Integer  deletePltPallet(Integer id);
 	
 	
 	/**
@@ -36,7 +36,7 @@ public interface BaseBoxMapper {
 	 * @return
 	 * 查询所有的信息(带条件)
 	 */
-	public List<BaseBox> getAllBaseBox( @Param("cm") Map<String,Object> map);
+	public List<PltPallet> getAllPltPallet( @Param("cm") Map<String,Object> map);
 	
 	
 	
@@ -45,15 +45,15 @@ public interface BaseBoxMapper {
 	 * @return
 	 * 查询一条数据
 	 */
-	public BaseBox getOneBaseBox(Integer id);
+	public PltPallet getOnePltPallet(Integer id);
 	
 	
 	/**
-	 * @param basebox
+	 * @param pltpallet
 	 * @return
 	 * 修改
 	 */
-	public Integer updateBaseBox(BaseBox basebox);
+	public Integer updatePltPallet(PltPallet pltpallet);
 	
 }
 

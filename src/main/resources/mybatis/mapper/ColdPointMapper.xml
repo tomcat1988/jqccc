@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.frd.mapper.ColdPointMapper">
+	<resultMap id="baseResultMap" type="com.frd.model.ColdPoint">
+		<result column="rowid" property="rowid" />
+		<result column="pointcode" property="pointcode" />
+		<result column="pointname" property="pointname" />
+		<result column="pointtype" property="pointtype" />
+		<result column="status" property="status" />
+		<result column="hubcode" property="hubcode" />
+		<result column="remark" property="remark" />
+		<result column="creator" property="creator" />
+		<result column="createdt" property="createdt" />
+		<result column="modifyby" property="modifyby" />
+		<result column="modifydt" property="modifydt" />
+	</resultMap>
+      <!--新增-->
+	<insert id="addColdPoint" parameterType="com.frd.model.ColdPoint" >
+		insert into cold_point (
+        pointcode,
+        pointname,
+        pointtype,
+        status,
+        hubcode,
+        remark,
+        creator,
+        createdt,
+        modifyby,
+        modifydt)
+        values(
+        #{pointcode},
+        #{pointname},
+        #{pointtype},
+        #{status},
+        #{hubcode},
+        #{remark},
+        #{creator},
+        #{createdt},
+        #{modifyby},
+        #{modifydt})
+	</insert>
+     <!--删除-->
+     <delete id="deleteColdPoint">
+		delete from cold_point 
+        where rowid=#{rowid}
+	</delete>
+    <!--查询-->
+	<select id="getOneColdPoint" >
+		select * from cold_point where rowid=#{rowid}
+	</select>
+    <select id="getAllColdPoint" resultMap="baseResultMap" >
+		select * from cold_point 
+   <where>
+		<if test="cm.boxcode != null and cm.boxcode != ''">
+		and boxcode like CONCAT('%',#{cm.boxcode},'%')
+		</if>
+		<if test="cm.boxname != null and cm.boxname != ''">
+		and boxname like CONCAT('%',#{cm.boxname},'%')
+		</if>
+		<if test="cm.boxtype != null and cm.boxtype != ''">
+		and boxtype like CONCAT('%',#{cm.boxtype},'%')
+		</if>
+		<if test="cm.startDate != null and cm.startDate != ''">
+		and createdt &gt; = #{cm.startDate}
+		</if>
+		<if test="cm.endDate != null and cm.endDate != ''">
+		and createdt &lt; = #{cm.endDate}
+		</if>
+    </where>
+	</select>
+   
+	 <!--修改-->
+	<update id="updateColdPoint">
+		update cold_point 
+        set 
+        pointcode=#{pointcode},
+        pointname=#{pointname},
+        pointtype=#{pointtype},
+        status=#{status},
+        hubcode=#{hubcode},
+        remark=#{remark},
+        creator=#{creator},
+        createdt=#{createdt},
+        modifyby=#{modifyby},
+        modifydt=#{modifydt}
+        where rowid=#{rowid}
+	</update>
+</mapper>

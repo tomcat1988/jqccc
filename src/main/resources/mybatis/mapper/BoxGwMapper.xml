@@ -1,60 +1,56 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.frd.mapper.BaseBoxMapper">
-
-	<resultMap id="baseResultMap" type="com.frd.model.BaseBox">
+<mapper namespace="com.frd.mapper.BoxGwMapper">
+	<resultMap id="baseResultMap" type="com.frd.model.BoxGw">
 		<result column="rowid" property="rowid" />
 		<result column="boxcode" property="boxcode" />
 		<result column="boxname" property="boxname" />
-		<result column="boxtype" property="boxtype" />
-		<result column="status" property="status" />
+		<result column="gwtime" property="gwtime" />
+		<result column="gw" property="gw" />
+		<result column="remark" property="remark" />
 		<result column="creator" property="creator" />
 		<result column="createdt" property="createdt" />
 		<result column="modifyby" property="modifyby" />
 		<result column="modifydt" property="modifydt" />
 	</resultMap>
-
-	
-	
-	
-	
-     <!--新增-->
-	<insert id="addBaseBox" parameterType="com.frd.model.BaseBox" >
-		insert into 
-		base_box 
-		)
+      <!--新增-->
+	<insert id="addBoxGw" parameterType="com.frd.model.BoxGw" >
+		insert into box_gw (
         boxcode,
         boxname,
-        boxtype,
-        status,
+        gwtime,
+        gw,
+        remark,
         creator,
         createdt,
         modifyby,
         modifydt
         )
-        values
-        (
+        values(
         #{boxcode},
         #{boxname},
-        #{boxtype},
-        #{status},
+        #{gwtime},
+        #{gw},
+        #{remark},
         #{creator},
         #{createdt},
         #{modifyby},
-        #{modifydt}
-        )
+        #{modifydt})
 	</insert>
-	
-	
-	 <delete id="deleteBaseBox">
-		delete  from base_box   where rowid=#{rowid}
+     <!--删除-->
+     <delete id="deleteBoxGw">
+		delete from box_gw 
+        where rowid=#{rowid}
 	</delete>
 	
-	
-    <select id="getAllBaseBox"   resultMap="baseResultMap">
-		select * from base_box
-	<where>
+    <!--查询-->
+	<select id="getOneBoxGw" >
+		select * from box_gw where rowid=#{rowid}
+	</select>
+    <select id="getAllBoxGw" resultMap="baseResultMap" >
+		select * from box_gw 
+   <where>
 		<if test="cm.boxcode != null and cm.boxcode != ''">
 		and boxcode like CONCAT('%',#{cm.boxcode},'%')
 		</if>
@@ -70,32 +66,22 @@
 		<if test="cm.endDate != null and cm.endDate != ''">
 		and createdt &lt; = #{cm.endDate}
 		</if>
-	</where>
+    </where>
 	</select>
-	
-	
-	<!--查询-->
-	<select id="getOneBaseBox" resultType="com.frd.model.BaseBox">
-		select * from base_box where rowid=#{rowid}
-	</select>
-	
-	
+   
 	 <!--修改-->
-	<update id="updateBaseBox">
-		update base_box 
+	<update id="updateBoxGw">
+		update box_gw 
         set 
         boxcode=#{boxcode},
         boxname=#{boxname},
-        boxtype=#{boxtype},
-        status=#{status},
+        gwtime=#{gwtime},
+        gw=#{gw},
+        remark=#{remark},
         creator=#{creator},
         createdt=#{createdt},
         modifyby=#{modifyby},
         modifydt=#{modifydt}
-        where 
-        rowid=#{rowid}
+        where rowid=#{rowid}
 	</update>
-	
-	
-  
 </mapper>

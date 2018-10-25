@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.frd.mapper.BoxCostMapper">
+	<resultMap id="baseResultMap" type="com.frd.model.BoxCost">
+		<result column="rowid" property="rowid" />
+		<result column="boxcode" property="boxcode" />
+		<result column="boxname" property="boxname" />
+		<result column="costtime" property="costtime" />
+		<result column="cost" property="cost" />
+		<result column="truckno" property="truckno" />
+		<result column="remark" property="remark" />
+		<result column="creator" property="creator" />
+		<result column="createdt" property="createdt" />
+		<result column="modifyby" property="modifyby" />
+		<result column="modifydt" property="modifydt" />
+	</resultMap>
+      <!--新增-->
+	<insert id="addBoxCost" parameterType="com.frd.model.BoxCost" >
+		insert into box_cost (
+        boxcode,
+        boxname,
+        costtime,
+        cost,
+        truckno,
+        remark,
+        creator,
+        createdt,
+        modifyby,
+        modifydt)
+        values(
+        #{boxcode},
+        #{boxname},
+        #{costtime},
+        #{cost},
+        #{truckno},
+        #{remark},
+        #{creator},
+        #{createdt},
+        #{modifyby},
+        #{modifydt})
+	</insert>
+     <!--删除-->
+     <delete id="deleteBoxCost">
+		delete from box_cost 
+        where rowid=#{rowid}
+	</delete>
+    <!--查询-->
+	<select id="getOneBoxCost" >
+		select * from box_cost where rowid=#{rowid}
+	</select>
+    <select id="getAllBoxCost" resultMap="baseResultMap" >
+		select * from box_cost 
+   <where>
+		<if test="cm.boxcode != null and cm.boxcode != ''">
+		and boxcode like CONCAT('%',#{cm.boxcode},'%')
+		</if>
+		<if test="cm.boxname != null and cm.boxname != ''">
+		and boxname like CONCAT('%',#{cm.boxname},'%')
+		</if>
+		<if test="cm.boxtype != null and cm.boxtype != ''">
+		and boxtype like CONCAT('%',#{cm.boxtype},'%')
+		</if>
+		<if test="cm.startDate != null and cm.startDate != ''">
+		and createdt &gt; = #{cm.startDate}
+		</if>
+		<if test="cm.endDate != null and cm.endDate != ''">
+		and createdt &lt; = #{cm.endDate}
+		</if>
+    </where>
+	</select>
+   
+	 <!--修改-->
+	<update id="updateBoxCost">
+		update box_cost 
+        set 
+        boxcode=#{boxcode},
+        boxname=#{boxname},
+        costtime=#{costtime},
+        cost=#{cost},
+        truckno=#{truckno},
+        remark=#{remark},
+        creator=#{creator},
+        createdt=#{createdt},
+        modifyby=#{modifyby},
+        modifydt=#{modifydt}
+        where rowid=#{rowid}
+	</update>
+</mapper>
