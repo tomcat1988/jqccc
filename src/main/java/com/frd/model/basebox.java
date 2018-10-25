@@ -6,7 +6,7 @@ import java.util.Date;
  * @author tomcat
  * 2018-10-25
  */
-public class basebox implements Serializable
+public class BaseBox implements Serializable
 {
 
 
