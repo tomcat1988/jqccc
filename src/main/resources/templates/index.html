@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	
+<table border="1">
+    <tr>
+        <th>序号</th>
+        <th>岗亭编号</th>
+        <th>岗亭名称</th>
+        <th>岗亭类型</th>
+        <th>岗亭状态</th>
+        <th>创建人</th>
+        <th>创建时间</th>
+        <th>修改人</th>
+        <th>修改时间</th>
+    </tr>
+    <tr  th:each="allBaseBox,iterStat:${allBaseBox}">
+    	<td th:text="${iterStat.count}"></td>
+        <td th:text="${allBaseBox.boxcode}"></td>
+        <th th:text="${allBaseBox.boxname}"></th>
+        <th th:text="${allBaseBox.boxtype}"></th>
+        <th th:if="${allBaseBox.status==1}">使用中</th>
+        <th th:if="${allBaseBox.status==2}">检修中</th>
+        <th th:if="${allBaseBox.status==3}">已关闭</th>
+        <th th:text="${allBaseBox.creator}"></th>
+        <th th:text="${#dates.format(allBaseBox.createdt, 'yyyy-MM-dd')}"></th>
+        <th th:text="${allBaseBox.modifyby}"></th>
+        <th th:text="${#dates.format(allBaseBox.modifydt, 'yyyy-MM-dd')}"></th>
+    </tr>
+</table>
+</body>
+</html>

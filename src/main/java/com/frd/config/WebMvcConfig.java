@@ -15,5 +15,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         //将所有/jquery/** 访问都映射到classpath:/jquery/ 目录下
         registry.addResourceHandler("/jq/**").addResourceLocations("classpath:/jq/");
         registry.addResourceHandler("/jQuery-Canvas/**").addResourceLocations("classpath:/jQuery-Canvas/");
+        registry.addResourceHandler("/bootstrap-4.1.3/**").addResourceLocations("classpath:/bootstrap-4.1.3/");
     }
 }
