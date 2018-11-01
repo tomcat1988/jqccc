@@ -61,26 +61,17 @@
         where rowid=#{rowid}
 	</delete>
     <!--查询-->
-	<select id="getOneCargoOrder" >
+	<select id="getOneCargoOrder" resultType="com.frd.model.CargoOrder" >
 		select * from cargo_order where rowid=#{rowid}
 	</select>
     <select id="getAllCargoOrder" resultMap="baseResultMap" >
 		select * from cargo_order 
    <where>
-		<if test="cm.boxcode != null and cm.boxcode != ''">
-		and boxcode like CONCAT('%',#{cm.boxcode},'%')
+		<if test="cm.orderno != null and cm.orderno != ''">
+		and orderno like CONCAT('%',#{cm.orderno},'%')
 		</if>
-		<if test="cm.boxname != null and cm.boxname != ''">
-		and boxname like CONCAT('%',#{cm.boxname},'%')
-		</if>
-		<if test="cm.boxtype != null and cm.boxtype != ''">
-		and boxtype like CONCAT('%',#{cm.boxtype},'%')
-		</if>
-		<if test="cm.startDate != null and cm.startDate != ''">
-		and createdt &gt; = #{cm.startDate}
-		</if>
-		<if test="cm.endDate != null and cm.endDate != ''">
-		and createdt &lt; = #{cm.endDate}
+		<if test="cm.tel != null and cm.tel != ''">
+		and tel like CONCAT('%',#{cm.tel},'%')
 		</if>
     </where>
 	</select>

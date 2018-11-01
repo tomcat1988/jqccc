@@ -52,7 +52,7 @@
         where rowid=#{rowid}
 	</delete>
     <!--查询-->
-	<select id="getOneColdHub" >
+	<select id="getOneColdHub"  resultType="com.frd.model.ColdHub">
 		select * from cold_hub where rowid=#{rowid}
 	</select>
     <select id="getAllColdHub" resultMap="baseResultMap" >
